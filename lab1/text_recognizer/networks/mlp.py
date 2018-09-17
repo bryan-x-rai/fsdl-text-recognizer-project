@@ -12,7 +12,7 @@ def mlp(input_shape: Tuple[int, ...],
     model = Sequential()
     model.add(Flatten(input_shape = input_shape))
     for _ in range(num_layers):
-        model.add(Dense(layer_size, activation = 'relu'))
+        model.add(Dense(layer_size, activation = 'selu'))
     model.add(Dense(num_classes, activation = 'softmax'))
     
     return model
