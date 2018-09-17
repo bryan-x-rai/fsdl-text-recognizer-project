@@ -5,8 +5,7 @@ from tensorflow.keras.layers import Dense, Flatten
 def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
         layer_size: int = 128,
-        num_layers: int = 4) -> Model:
-
+        num_layers: int = 3) -> Model:
     # Simple multi-layer perceptron: just fully-connected layers with softmax predictions; creates num_layers layers.
     
     num_classes = output_shape[0]
