@@ -1,6 +1,6 @@
 from typing import Tuple
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
+from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Flatten
 
 def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
@@ -13,9 +13,12 @@ def mlp(input_shape: Tuple[int, ...],
     model = Sequential()
     model.add(Flatten(input_shape = input_shape))
     # for _ in range(num_layers):
+    model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
+    model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
-    model.add(Dropout(dropout_amount))
+    # model.add(Dropout(dropout_amount))
+    model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
     model.add(Dropout(dropout_amount))
     model.add(Dense(num_classes, activation = 'softmax'))
