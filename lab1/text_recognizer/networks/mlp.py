@@ -27,12 +27,6 @@ def mlp(input_shape: Tuple[int, ...],
 
 
 '''
-from typing import Tuple
-
-from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-
-
 def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
         layer_size: int=128,
