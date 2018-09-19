@@ -1,4 +1,37 @@
 from typing import Tuple
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Flatten
+
+def mlp(input_shape: Tuple[int, ...],
+        output_shape: Tuple[int, ...],
+        layer_size: int = 128,
+        dropout_amount_1: float = 0,
+        dropout_amount_2: float = 0.07,
+        dropout_amount_3: float = 0.23,
+        num_layers: int = 3) -> Model:
+    
+    num_classes = output_shape[0]
+    model = Sequential()
+    
+    model.add(Flatten(input_shape = input_shape))
+    # model.add(BatchNormalization())
+    model.add(Dense(layer_size, activation = 'selu'))
+    model.add(Dropout(dropout_amount_1))
+    model.add(BatchNormalization())
+    model.add(Dense(layer_size, activation = 'selu'))
+    model.add(Dropout(dropout_amount_2))
+    model.add(BatchNormalization())
+    model.add(Dense(layer_size, activation = 'selu'))
+    model.add(Dropout(dropout_amount_3))
+    model.add(BatchNormalization())
+    model.add(Dense(num_classes, activation = 'softmax'))
+    print ('I miss python 2... full plaid engage yet?')
+    
+    return model
+
+
+'''
+from typing import Tuple
 
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten
@@ -27,3 +60,4 @@ def mlp(input_shape: Tuple[int, ...],
 
     return model
 
+'''
