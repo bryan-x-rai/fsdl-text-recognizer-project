@@ -4,14 +4,15 @@ import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, Dense, Dropout, Flatten, Input, Lambda, MaxPooling2D
 from tensorflow.keras.models import Sequential, Model
 
-def lenet(input_shape: Tuple[int, ...],
-          output_shape: Tuple[int, ...]
-         ) -> Model:
+
+def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
+    
     num_classes = output_shape[0]
 
     model = Sequential()
     model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
-    model.add(Conv2D(32, (3, 3), activation = 'selu', input_shape = input_shape))
+    # model.add(Conv2D(32, (3, 3), activation = 'selu', input_shape = input_shape))
+    model.add(Conv2D(32, (3, 3), activation = 'selu'))
     model.add(Conv2D(64, (3, 3), activation = 'selu'))
     model.add(MaxPooling2D((2, 2)))
     model.add(Flatten())
