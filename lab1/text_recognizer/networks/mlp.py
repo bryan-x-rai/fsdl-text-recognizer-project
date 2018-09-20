@@ -6,8 +6,8 @@ def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
         layer_size: int = 128,
         # dropout_amount_1: float = 0,
-        dropout_amount_2: float = 0.03,
-        dropout_amount_3: float = 0.07,
+        dropout_amount_2: float = 0.04,
+        dropout_amount_3: float = 0.08,
         num_layers: int = 3) -> Model:
     # Simple multi-layer perceptron: just fully-connected layers with softmax predictions; creates num_layers layers.
     
