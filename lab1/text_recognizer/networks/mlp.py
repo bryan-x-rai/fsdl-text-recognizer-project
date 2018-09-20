@@ -5,9 +5,9 @@ from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Flatten
 def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
         layer_size: int = 128,
-        dropout_amount_1: float = 0,
-        dropout_amount_2: float = 0.05,
-        dropout_amount_3: float = 0.1,
+        # dropout_amount_1: float = 0,
+        dropout_amount_2: float = 0.04,
+        dropout_amount_3: float = 0.08,
         num_layers: int = 3) -> Model:
     # Simple multi-layer perceptron: just fully-connected layers with softmax predictions; creates num_layers layers.
     
@@ -16,7 +16,7 @@ def mlp(input_shape: Tuple[int, ...],
     
     model.add(Flatten(input_shape = input_shape))
     model.add(Dense(layer_size, activation = 'selu'))
-    model.add(Dropout(dropout_amount_1))
+    # model.add(Dropout(dropout_amount_1))
     model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
     model.add(Dropout(dropout_amount_2))

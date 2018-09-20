@@ -50,6 +50,8 @@ def line_cnn_sliding_window(
     # and watch out that width is at least 2 (else we will only be able to predict on the first half of the line)
 
     ##### Your code below (Lab 2)
+    
+    
 
     ##### Your code above (Lab 2)
 
