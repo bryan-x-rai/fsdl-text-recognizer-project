@@ -14,9 +14,8 @@ def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
     # comment in either compact or conventional:
     # compact:
     ''''''
-    # we know len(input_shape) in this context, so let's dispense with the if statement:
-    print(f'len(input_shape) is {input_shape}')
-    # print(input_shape)
+    # we know len(input_shape) in this context, so let's dispense with the if statement (do not use if context inapplicable):
+    print(f'len(input_shape) is {len(input_shape)}') # this duplicates output from rexp.py btw
     model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
     model.add(Conv2D(32, (3, 3), activation = 'selu'))
     model.add(Conv2D(64, (3, 3), activation = 'selu'))
@@ -28,11 +27,17 @@ def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
     return model
 
 '''
-example acc:
+example accs:
 10906/10906 [==============================] - 162s 15ms/step - loss: 0.5523 - acc: 0.8171 - val_loss: 0.4675 - val_acc: 0.8399
 Training took 162.104841 s
 GPU utilization: 71.68 +- 5.36
 Test evaluation: 0.8398940880135485
+
+10906/10906 [==============================] - 161s 15ms/step - loss: 0.5525 - acc: 0.8175 - val_loss: 0.4745 - val_acc: 0.8416
+Training took 161.639176 s
+GPU utilization: 72.45 +- 1.55
+Test evaluation: 0.841553261177927
+~/fsdl-text-recognizer-project/lab2 (master)
 '''
     
 '''
