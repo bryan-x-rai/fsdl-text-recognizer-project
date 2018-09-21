@@ -29,6 +29,26 @@ def mlp(input_shape: Tuple[int, ...],
     
     return model
 
+'''
+example run achieves #9 of 123 on the Leaderboard, without applying a convnet to Lab 1:
+Leaderboard
+
+Search
+Assignment Leaderboard
+ RANK
+ SUBMISSION NAME
+ ACCURACY
+1	Al A Latif	0.8754760451501423
+2	Kam	0.8728454389931484
+3	B_145	0.872553149420149
+4	Ignacio	0.8686502239453935
+5	arai	0.8672489533454261
+6	hoktay	0.865022394539343
+7	Brenda Ng	0.8645839601798441
+8	kishb	0.8616352741934097
+9	bryan-x-rai	0.8490668225544389
+10	skrsna	0.8489894517851155
+'''
 
 '''
 def mlp(input_shape: Tuple[int, ...],
