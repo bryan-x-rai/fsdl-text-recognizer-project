@@ -14,6 +14,9 @@ def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
     # comment in either compact or conventional:
     # compact:
     ''''''
+    # we know len(input_shape) in this context, so let's dispense with the if statement:
+    print('len(input_shape) is ')
+    print(input_shape)
     model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
     model.add(Conv2D(32, (3, 3), activation = 'selu'))
     model.add(Conv2D(64, (3, 3), activation = 'selu'))
@@ -23,9 +26,16 @@ def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
     model.add(Dense(num_classes, activation = 'softmax'))
     
     return model
+
+'''
+example acc:
+10906/10906 [==============================] - 162s 15ms/step - loss: 0.5523 - acc: 0.8171 - val_loss: 0.4675 - val_acc: 0.8399
+Training took 162.104841 s
+GPU utilization: 71.68 +- 5.36
+Test evaluation: 0.8398940880135485
+'''
     
     '''
-    
     #conventional:
     if len(input_shape) < 3:
         model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))

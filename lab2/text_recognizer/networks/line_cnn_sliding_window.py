@@ -18,10 +18,7 @@ def line_cnn_sliding_window(
         output_shape: Tuple[int, ...],
         window_width: float=16,
         window_stride: float=10) -> KerasModel:
-    """
-    Input is an image with shape (image_height, image_width)
-    Output is of shape (output_length, num_classes)
-    """
+    
     image_height, image_width = input_shape
     output_length, num_classes = output_shape
 
