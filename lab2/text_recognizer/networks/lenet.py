@@ -15,8 +15,8 @@ def lenet(input_shape: Tuple[int, ...], output_shape: Tuple[int, ...]) -> Model:
     # compact:
     ''''''
     # we know len(input_shape) in this context, so let's dispense with the if statement:
-    print('len(input_shape) is ')
-    print(input_shape)
+    print(f'len(input_shape) is {input_shape}')
+    # print(input_shape)
     model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
     model.add(Conv2D(32, (3, 3), activation = 'selu'))
     model.add(Conv2D(64, (3, 3), activation = 'selu'))
@@ -35,7 +35,7 @@ GPU utilization: 71.68 +- 5.36
 Test evaluation: 0.8398940880135485
 '''
     
-    '''
+'''
     #conventional:
     if len(input_shape) < 3:
         model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
