@@ -18,10 +18,10 @@ def line_cnn_all_conv(
 
     model = Sequential()
     model.add(Reshape((image_height, image_width, 1), input_shape=input_shape))
-    model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(Conv2D(32, kernel_size=(3, 3), activation='selu'))
+    model.add(Conv2D(64, (3, 3), activation='selu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.12))
 
     # So far, this is the same as LeNet. At this point, LeNet would flatten and Dense 128.
     # Instead, we are going to use a Conv2D to slide over these outputs with window_width and window_stride,
@@ -37,7 +37,7 @@ def line_cnn_all_conv(
     new_window_stride = window_stride // 2
         
     model.add(Conv2D(128, (new_height, new_window_width), (1, new_window_stride), activation = 'selu'))
-    model.add(Dropout(0.1))
+    model.add(Dropout(0.07))
     
     num_windows = int((new_width - new_window_width) / new_window_stride) + 1
     
