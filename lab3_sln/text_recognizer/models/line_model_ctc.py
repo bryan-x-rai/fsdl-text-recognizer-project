@@ -91,6 +91,7 @@ class LineModelCtc(Model):
 
         neg_sum_logit = K.eval(log_prob)[0][0]
         conf = np.exp(-neg_sum_logit)
+        
         ##### Your code above (Lab 3)
 
         return pred, conf
