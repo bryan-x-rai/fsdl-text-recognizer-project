@@ -49,7 +49,9 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     
     lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
     
-    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm_output)
+    lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm_output)
+    
+    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm2_output)
 
     ##### Your code above (Lab 3)
 
