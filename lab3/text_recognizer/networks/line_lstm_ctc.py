@@ -2,7 +2,7 @@ from boltons.cacheutils import cachedproperty
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.python.client import device_lib
-from tensorflow.keras.layers import Conv2D, Dense, Dropout, Flatten, Input, MaxPooling2D, Permute, RepeatVector, Reshape, TimeDistributed, Lambda, LSTM, GRU, CuDNNLSTM, Bidirectional
+from tensorflow.keras.layers import AlphaDropout, BatchNormalization, Conv2D, Dense, Dropout, Flatten, Input, MaxPooling2D, Permute, RepeatVector, Reshape, TimeDistributed, Lambda, LSTM, GRU, CuDNNLSTM, Bidirectional
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import Model as KerasModel
 
@@ -38,6 +38,8 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     
     image_reshaped = Reshape((image_height, image_width, 1))(image_input)
     
+    # lenet option:
+    ''''''
     image_patches = Lambda(
         slide_window,
         arguments = {'window_width': window_width, 'window_stride': window_stride}
@@ -46,12 +48,35 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     convnet = lenet((image_height, window_width, 1), (num_classes,))
     convnet = KerasModel(inputs = convnet.inputs, outputs = convnet.layers[-2].output)
     convnet_outputs = TimeDistributed(convnet)(image_patches)
+    ''''''
+    
+    # straight conv to lstm w relu option:
+    '''
+    # conv = BatchNormalization()(image_reshaped)
+    conv = Conv2D(128, (image_height, window_width), (1, window_stride), kernel_initializer = 'lecun_normal', activation = 'selu')(image_reshaped)
+    conv = BatchNormalization()(conv)
+    conv = AlphaDropout(0.07)(conv)
+    
+    # conv = MaxPooling2D(pool_size = (2, 2))(conv)
+    
+    # conv = Conv2D(128, (image_height, window_width), (1, window_stride), activation = 'relu')(image_reshaped)
+    
+    # conv = Conv2D(256, (1, window_stride), activation = 'relu')(conv)
+    
+    convnet_outputs = Lambda(lambda x: K.squeeze(x, 1))(conv)
+    '''
+
+    # convnet_do = AlphaDropout(0.05)(convnet_outputs)
+    
+    # lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_do)
     
     lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
     
     lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm_output)
     
     lstm3_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm2_output)
+    
+    # lstm3_do = AlphaDropout(0.05)(lstm3_output)
     
     softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
 

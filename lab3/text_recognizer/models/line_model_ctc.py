@@ -23,6 +23,7 @@ class LineModelCtc(Model):
             dataset_args = {}
         dataset_args = {**default_dataset_args, **dataset_args}
 
+        # This line overrules the args in the network:
         default_network_args = {'window_width': 14, 'window_stride': 7}
         if network_args is None:
             network_args = {}

@@ -6,6 +6,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, Dense, Dropout, Flatten, Input, MaxPooling2D, Permute, Reshape, TimeDistributed, Lambda, ZeroPadding2D
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import Model as KerasModel
+from tensorflow.keras import initializers
 
 
 def line_cnn_all_conv(
