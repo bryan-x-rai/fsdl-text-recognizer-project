@@ -18,6 +18,8 @@ DEFAULT_TRAIN_ARGS = {
     'epochs': 80
 }
 
+# Oct. 14: confirmed that just stopping the early stopping would help a lot to get to higher accuracy...
+
 
 def run_experiment(experiment_config: Dict, save_weights: bool, gpu_ind: int, use_wandb: bool=True):
     """

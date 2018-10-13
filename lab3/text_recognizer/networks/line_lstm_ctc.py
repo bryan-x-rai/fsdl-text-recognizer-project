@@ -79,6 +79,8 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     # lstm3_do = AlphaDropout(0.05)(lstm3_output)
     
     softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
+    
+    # highest run: Test evaluation: 0.9641768591746657
 
     ##### Your code above (Lab 3)
 
