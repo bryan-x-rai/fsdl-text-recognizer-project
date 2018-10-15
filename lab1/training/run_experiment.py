@@ -10,7 +10,7 @@ from training.util import train_model
 
 DEFAULT_TRAIN_ARGS = {
     'batch_size': 256,
-    'epochs': 5
+    'epochs': 10
 }
 
 

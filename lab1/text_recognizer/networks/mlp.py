@@ -1,6 +1,7 @@
 from typing import Tuple
+import tensorflow as tf
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Flatten
+from tensorflow.keras.layers import AlphaDropout, BatchNormalization, Dense, Dropout, Flatten, Input, Lambda, MaxPooling2D, Conv2D
 
 def mlp(input_shape: Tuple[int, ...],
         output_shape: Tuple[int, ...],
@@ -14,21 +15,33 @@ def mlp(input_shape: Tuple[int, ...],
     num_classes = output_shape[0]
     model = Sequential()
     
-    model.add(Flatten(input_shape = input_shape))
+    # model.add(Flatten(input_shape = input_shape))
+    # new:
+    if len(input_shape) < 3:
+        model.add(Lambda(lambda x: tf.expand_dims(x, -1), input_shape = input_shape))
+        input_shape = (input_shape[0], input_shape[1], 1)
+    model.add(Conv2D(32, kernel_size = (3, 3), kernel_initializer = 'lecun_normal', strides = (1, 1), activation = 'selu', input_shape = input_shape))
+    model.add(MaxPooling2D(pool_size = (2, 2), strides = (2, 2)))
+    model.add(Conv2D(64, (5, 5), activation = 'selu'))
+    model.add(Conv2D(64, (5, 5), activation = 'selu'))
+    model.add(MaxPooling2D(pool_size = (2, 2)))
+    model.add(Flatten())
     model.add(Dense(layer_size, activation = 'selu'))
     # model.add(Dropout(dropout_amount_1))
     model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
-    model.add(Dropout(dropout_amount_2))
+    model.add(AlphaDropout(dropout_amount_2))
     model.add(BatchNormalization())
     model.add(Dense(layer_size, activation = 'selu'))
-    model.add(Dropout(dropout_amount_3))
+    model.add(AlphaDropout(dropout_amount_3))
     model.add(BatchNormalization())
     model.add(Dense(num_classes, activation = 'softmax'))
-    print ('I miss python 2... full plaid engage yet?')
     
     return model
 
+# first runs with conv:
+# Test evaluation: 0.8640337680424336
+# Test evaluation: 0.8658046989847236
 '''
 example run achieves #9 of 123 on the Leaderboard, without applying a convnet to Lab 1:
 Leaderboard

@@ -14,11 +14,12 @@ from training.util import train_model
 
 
 DEFAULT_TRAIN_ARGS = {
-    'batch_size': 64,
-    'epochs': 80
+    'batch_size': 32,
+    'epochs': 100
 }
 
 # Oct. 14: confirmed that just stopping the early stopping would help a lot to get to higher accuracy...
+# ... and that it doesn't much...
 
 
 def run_experiment(experiment_config: Dict, save_weights: bool, gpu_ind: int, use_wandb: bool=True):

@@ -70,15 +70,23 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     
     # lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_do)
     
-    lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
+    lstm1_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
     
-    lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm_output)
+    lstm1_do = AlphaDropout(0.04)(lstm1_output)
     
-    lstm3_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm2_output)
+    lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm1_do)
     
-    # lstm3_do = AlphaDropout(0.05)(lstm3_output)
+    lstm2_do = AlphaDropout(0.04)(lstm2_output)
     
-    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
+    ''''''
+    lstm3_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm2_do)
+    # softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
+    ''''''
+    
+    lstm3_do = AlphaDropout(0.05)(lstm3_output)
+    
+    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_do)
+    
     
     # highest run: Test evaluation: 0.9641768591746657
 

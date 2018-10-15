@@ -12,7 +12,8 @@ from text_recognizer.networks.misc import slide_window
 from text_recognizer.networks.ctc import ctc_decode
 
 
-def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
+# def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
+def line_lstm_ctc(input_shape, output_shape, window_width = 28, window_stride = 7):
     image_height, image_width = input_shape
     output_length, num_classes = output_shape
 
@@ -69,18 +70,27 @@ def line_lstm_ctc(input_shape, output_shape, window_width=28, window_stride=14):
     # convnet_do = AlphaDropout(0.05)(convnet_outputs)
     
     # lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_do)
+        
+    lstm1_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
     
-    lstm_output = Bidirectional(lstm_fn(128, return_sequences = True))(convnet_outputs)
+    lstm1_do = AlphaDropout(0.04)(lstm1_output)
     
-    lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm_output)
+    lstm2_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm1_do)
     
-    lstm3_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm2_output)
+    lstm2_do = AlphaDropout(0.04)(lstm2_output)
     
-    # lstm3_do = AlphaDropout(0.05)(lstm3_output)
+    ''''''
+    lstm3_output = Bidirectional(lstm_fn(128, return_sequences = True))(lstm2_do)
+    # softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
+    ''''''
     
-    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_output)
+    lstm3_do = AlphaDropout(0.05)(lstm3_output)
     
-    # Test evaluation: 0.612532686461871
+    softmax_output = Dense(num_classes, activation = 'softmax', name = 'softmax_output')(lstm3_do)
+    
+    # First test evaluation: 0.612532686461871
+    
+    # Test evaluation: 0.6330963581464973
     
     '''
     image_reshaped = Reshape((image_height, image_width, 1))(image_input)
